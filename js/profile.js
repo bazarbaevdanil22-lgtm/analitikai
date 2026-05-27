@@ -23,11 +23,12 @@ async function loadProfile() {
     try {
         const data = await getProfile();
         const user = data.user;
-        const initial = (user.username || 'U')[0].toUpperCase();
+        const displayName = user.username || user.email || 'User';
+        const initial = displayName[0].toUpperCase();
 
         document.getElementById('profileAvatarLarge').textContent = initial;
-        document.getElementById('profileName').textContent = user.username;
-        document.getElementById('profileEmailDisplay').textContent = user.email;
+        document.getElementById('profileName').textContent = displayName;
+        document.getElementById('profileEmailDisplay').textContent = user.email || '';
         document.getElementById('editUsername').value = user.username;
         document.getElementById('editEmail').value = user.email;
         document.getElementById('profileId').textContent = '#' + user.id;
@@ -84,10 +85,11 @@ function initProfileForm() {
             const result = await updateProfile(username, email);
             showToast('Профиль обновлён', 'success');
 
-            document.getElementById('profileName').textContent = result.user.username;
-            document.getElementById('profileEmailDisplay').textContent = result.user.email;
+            const displayName = result.user.username || result.user.email || 'User';
+            document.getElementById('profileName').textContent = displayName;
+            document.getElementById('profileEmailDisplay').textContent = result.user.email || '';
 
-            const initial = (result.user.username || 'U')[0].toUpperCase();
+            const initial = displayName[0].toUpperCase();
             document.getElementById('profileAvatarLarge').textContent = initial;
 
             updateAuthUI();

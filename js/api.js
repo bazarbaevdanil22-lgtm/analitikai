@@ -183,10 +183,28 @@ function updateAuthUI() {
         if (profileTrigger) {
             profileTrigger.style.display = 'flex';
             if (user) {
+                const displayName = user.username || user.email || 'User';
+                const initial = displayName[0].toUpperCase();
+
                 const avatar = profileTrigger.querySelector('.user-avatar');
                 const name = profileTrigger.querySelector('.user-name');
-                if (avatar) avatar.textContent = (user.username || 'U')[0].toUpperCase();
-                if (name) name.textContent = user.username || 'User';
+                if (avatar) avatar.textContent = initial;
+                if (name) name.textContent = displayName;
+
+                const dropdownAvatar = document.querySelector('.dropdown-avatar');
+                const dropdownUsername = document.getElementById('dropdownUsername');
+                const dropdownEmail = document.getElementById('dropdownEmail');
+
+                if (dropdownAvatar) dropdownAvatar.textContent = initial;
+                if (dropdownUsername) dropdownUsername.textContent = displayName;
+                if (dropdownEmail) {
+                    if (user.email) {
+                        dropdownEmail.textContent = user.email;
+                        dropdownEmail.style.display = '';
+                    } else {
+                        dropdownEmail.style.display = 'none';
+                    }
+                }
             }
         }
         if (profileDropdown && user && (user.role === 'admin' || user.role === 'moderator')) {
