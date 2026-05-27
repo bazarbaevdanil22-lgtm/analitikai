@@ -887,6 +887,14 @@ textarea {
     animation: slide-in-left 300ms cubic-bezier(0, 0, 0.2, 1) both;
 }
 
+.vt-auth #authLink {
+    display: none !important;
+}
+
+.vt-auth .profile-trigger {
+    display: flex !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
     ::view-transition-old(root),
     ::view-transition-new(root),
