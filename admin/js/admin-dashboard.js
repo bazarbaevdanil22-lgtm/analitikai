@@ -32,42 +32,42 @@ function renderStats(stats) {
                 <div class="admin-stat-icon blue">&#9993;</div>
             </div>
             <div class="admin-stat-value">${stats.total_messages}</div>
-            <div class="admin-stat-label">Total Messages</div>
+            <div class="admin-stat-label">Всего сообщений</div>
         </div>
         <div class="admin-stat-card">
             <div class="admin-stat-card-header">
                 <div class="admin-stat-icon green">&#128101;</div>
             </div>
             <div class="admin-stat-value">${stats.total_users}</div>
-            <div class="admin-stat-label">Total Users</div>
+            <div class="admin-stat-label">Всего пользователей</div>
         </div>
         <div class="admin-stat-card">
             <div class="admin-stat-card-header">
                 <div class="admin-stat-icon purple">&#128737;</div>
             </div>
             <div class="admin-stat-value">${stats.total_admins}</div>
-            <div class="admin-stat-label">Admins</div>
+            <div class="admin-stat-label">Администраторы</div>
         </div>
         <div class="admin-stat-card">
             <div class="admin-stat-card-header">
                 <div class="admin-stat-icon amber">&#9881;</div>
             </div>
             <div class="admin-stat-value">${stats.total_activities}</div>
-            <div class="admin-stat-label">Activity Events</div>
+            <div class="admin-stat-label">Событий</div>
         </div>
         <div class="admin-stat-card">
             <div class="admin-stat-card-header">
                 <div class="admin-stat-icon green">&#128077;</div>
             </div>
             <div class="admin-stat-value">${posPct}%</div>
-            <div class="admin-stat-label">Positive (${pos})</div>
+            <div class="admin-stat-label">Позитив (${pos})</div>
         </div>
         <div class="admin-stat-card">
             <div class="admin-stat-card-header">
                 <div class="admin-stat-icon red">&#128078;</div>
             </div>
             <div class="admin-stat-value">${negPct}%</div>
-            <div class="admin-stat-label">Negative (${neg})</div>
+            <div class="admin-stat-label">Негатив (${neg})</div>
         </div>
     `;
 }
@@ -89,7 +89,7 @@ function renderCharts(stats) {
             data: {
                 labels: stats.daily.map(d => d.date),
                 datasets: [{
-                    label: 'Messages',
+                    label: 'Сообщения',
                     data: stats.daily.map(d => d.count),
                     borderColor: '#6366F1',
                     backgroundColor: 'rgba(99,102,241,0.1)',
@@ -117,7 +117,7 @@ function renderCharts(stats) {
         sentimentChartInstance = new Chart(sentimentCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Positive', 'Negative', 'Neutral'],
+                labels: ['Позитив', 'Негатив', 'Нейтрально'],
                 datasets: [{
                     data: [pos, neg, neu],
                     backgroundColor: ['#22C55E', '#EF4444', '#64748B'],
@@ -145,7 +145,7 @@ async function loadRecentActivity() {
         const data = await getActivityLogs({ limit: 10, offset: 0 });
         const logs = data.logs || [];
         if (!logs.length) {
-            showEmpty(container, '&#128203;', 'No activity yet', 'User actions will appear here');
+            showEmpty(container, '&#128203;', 'Нет активности', 'Действия пользователей появятся здесь');
             return;
         }
         container.innerHTML = logs.map(log => `
@@ -163,7 +163,7 @@ async function loadRecentActivity() {
             </div>
         `).join('');
     } catch (err) {
-        container.innerHTML = `<p style="color:var(--text-secondary);font-size:13px">Failed to load activity: ${escapeHtml(err.message)}</p>`;
+        container.innerHTML = `<p style="color:var(--text-secondary);font-size:13px">Ошибка загрузки: ${escapeHtml(err.message)}</p>`;
     }
 }
 

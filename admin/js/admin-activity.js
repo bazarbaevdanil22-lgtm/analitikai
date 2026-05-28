@@ -5,7 +5,7 @@ async function loadActivity() {
     const container = document.getElementById('activityContent');
     const pagination = document.getElementById('activityPagination');
 
-    showLoading(container, 'Loading activity logs...');
+    showLoading(container, 'Загрузка журнала...');
 
     try {
         const offset = (activityCurrentPage - 1) * ACTIVITY_PER_PAGE;
@@ -14,7 +14,7 @@ async function loadActivity() {
         const total = data.total || 0;
 
         if (!logs.length) {
-            showEmpty(container, '&#128203;', 'No activity logs', 'System activity will appear here');
+            showEmpty(container, '&#128203;', 'Нет записей', 'Активность в системе появится здесь');
             pagination.innerHTML = renderPagination(activityCurrentPage, total, ACTIVITY_PER_PAGE, 'goToActivityPage');
             return;
         }
@@ -35,7 +35,7 @@ async function loadActivity() {
                         <div class="activity-icon ${log.action}">${actionIcons[log.action] || '&#9679;'}</div>
                         <div class="activity-content">
                             <div class="activity-action">
-                                <strong>${escapeHtml(log.username || 'System')}</strong>
+                                <strong>${escapeHtml(log.username || 'Система')}</strong>
                                 <span style="color:var(--text-secondary)">${escapeHtml(log.action.replace(/_/g, ' '))}</span>
                             </div>
                             ${log.details ? `<div class="activity-details">${escapeHtml(log.details)}</div>` : ''}

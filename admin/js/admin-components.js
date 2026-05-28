@@ -30,7 +30,7 @@ function closeModal() {
     document.removeEventListener('keydown', handleModalEscape);
 }
 
-function showConfirmModal({ title, message, confirmText = 'Confirm', cancelText = 'Cancel', type = 'danger', onConfirm }) {
+function showConfirmModal({ title, message, confirmText = 'Подтвердить', cancelText = 'Отмена', type = 'danger', onConfirm }) {
     const icon = type === 'danger' ? '⚠️' : 'ℹ️';
     const overlay = openModal(`
         <div class="modal-header">
@@ -56,7 +56,7 @@ function showConfirmModal({ title, message, confirmText = 'Confirm', cancelText 
     });
 }
 
-function showFormModal({ title, html, onSubmit, submitText = 'Save', width }) {
+function showFormModal({ title, html, onSubmit, submitText = 'Сохранить', width }) {
     const overlay = openModal(`
         <div class="modal-header">
             <h2>${escapeHtml(title)}</h2>
@@ -67,7 +67,7 @@ function showFormModal({ title, html, onSubmit, submitText = 'Save', width }) {
                 ${html}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button type="button" class="btn btn-outline" onclick="closeModal()">Отмена</button>
                 <button type="submit" class="btn btn-accent" id="formSubmitBtn">${escapeHtml(submitText)}</button>
             </div>
         </form>
@@ -116,9 +116,9 @@ function showToast(message, type = 'info') {
 
 function renderPagination(current, total, limit, onChange) {
     const totalPages = Math.ceil(total / limit) || 1;
-    if (totalPages <= 1) return '<div class="admin-pagination-info">No results</div>';
+    if (totalPages <= 1) return '<div class="admin-pagination-info">Нет результатов</div>';
 
-    let html = `<span class="admin-pagination-info">${Math.min((current - 1) * limit + 1, total)}-${Math.min(current * limit, total)} of ${total}</span>`;
+    let html = `<span class="admin-pagination-info">${Math.min((current - 1) * limit + 1, total)}-${Math.min(current * limit, total)} из ${total}</span>`;
     html += '<div class="admin-pagination">';
 
     html += `<button class="page-btn" onclick="(${onChange})(${current - 1})" ${current <= 1 ? 'disabled' : ''}>&laquo;</button>`;
@@ -164,14 +164,14 @@ function showError(container, message, onRetry) {
     container.innerHTML = `
         <div class="admin-error-state">
             <div class="error-icon">&#9888;</div>
-            <h3>Error loading data</h3>
+            <h3>Ошибка загрузки данных</h3>
             <p>${escapeHtml(message)}</p>
-            ${onRetry ? '<button class="btn btn-outline" onclick="(' + onRetry + ')()">Try Again</button>' : ''}
+            ${onRetry ? '<button class="btn btn-outline" onclick="(' + onRetry + ')()">Повторить</button>' : ''}
         </div>
     `;
 }
 
-function showLoading(container, message = 'Loading...') {
+function showLoading(container, message = 'Загрузка...') {
     container.innerHTML = `
         <div class="admin-loading">
             <div class="spinner dark"></div>

@@ -6,7 +6,7 @@ async function loadMessages() {
     const tbody = document.getElementById('messagesBody');
     const pagination = document.getElementById('messagesPagination');
 
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px"><div class="spinner dark"></div><p style="margin-top:8px;color:var(--text-secondary)">Loading messages...</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px"><div class="spinner dark"></div><p style="margin-top:8px;color:var(--text-secondary)">Загрузка сообщений...</p></td></tr>`;
 
     try {
         const offset = (messagesCurrentPage - 1) * MESSAGES_PER_PAGE;
@@ -19,7 +19,7 @@ async function loadMessages() {
         const total = data.total || 0;
 
         if (!messages.length) {
-            tbody.innerHTML = `<tr><td colspan="8"><div class="admin-empty-state" style="padding:40px"><div class="empty-icon">&#128172;</div><h3>No messages found</h3><p>No messages match the current filter</p></div></td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="8"><div class="admin-empty-state" style="padding:40px"><div class="empty-icon">&#128172;</div><h3>Сообщения не найдены</h3><p>Нет сообщений, соответствующих фильтру</p></div></td></tr>`;
             pagination.innerHTML = renderPagination(messagesCurrentPage, total, MESSAGES_PER_PAGE, 'goToMessagesPage');
             return;
         }
@@ -36,14 +36,14 @@ async function loadMessages() {
                 <td style="max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text-secondary);font-size:13px" title="${escapeHtml(msg.text)}">
                     ${escapeHtml(truncate(msg.text, 80))}
                 </td>
-                <td><span class="${getSentimentBadgeClass(msg.sentiment)}">${escapeHtml(msg.sentiment || 'N/A')}</span></td>
-                <td style="color:var(--text-secondary);font-size:13px">${escapeHtml(msg.emotion || 'N/A')}</td>
+                <td><span class="${getSentimentBadgeClass(msg.sentiment)}">${msg.sentiment === 'positive' ? 'Позитив' : msg.sentiment === 'negative' ? 'Негатив' : msg.sentiment || 'N/A'}</span></td>
+                <td style="color:var(--text-secondary);font-size:13px">${msg.emotion === 'positive' ? 'Позитив' : msg.emotion === 'negative' ? 'Негатив' : msg.emotion === 'neutral' ? 'Нейтрально' : escapeHtml(msg.emotion || 'N/A')}</td>
                 <td style="color:var(--text-secondary);font-size:13px">${escapeHtml(msg.complaint_category || 'N/A')}</td>
                 <td style="color:var(--text-secondary);font-size:13px">${formatDate(msg.created_at)}</td>
                 <td>
                     <div class="cell-actions">
-                        <button class="btn-icon" onclick="viewMessage(${msg.id})" title="View details">&#128065;</button>
-                        <button class="btn-icon danger" onclick="confirmDeleteMessage(${msg.id})" title="Delete message">&#128465;</button>
+                        <button class="btn-icon" onclick="viewMessage(${msg.id})" title="Просмотр">&#128065;</button>
+                        <button class="btn-icon danger" onclick="confirmDeleteMessage(${msg.id})" title="Удалить сообщение">&#128465;</button>
                     </div>
                 </td>
             </tr>
@@ -51,7 +51,7 @@ async function loadMessages() {
 
         pagination.innerHTML = renderPagination(messagesCurrentPage, total, MESSAGES_PER_PAGE, 'goToMessagesPage');
     } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#EF4444">Failed to load messages: ${escapeHtml(err.message)}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:#EF4444">Ошибка загрузки: ${escapeHtml(err.message)}</td></tr>`;
         pagination.innerHTML = '';
     }
 }
@@ -72,24 +72,24 @@ function filterBySentiment(filter) {
 
 function viewMessage(id) {
     showFormModal({
-        title: 'Message Details',
+        title: 'Детали сообщения',
         width: '600px',
-        submitText: 'Close',
-        html: `<p id="messageDetailContent" style="color:var(--text-secondary);text-align:center">Loading...</p>`,
+        submitText: 'Закрыть',
+        html: `<p id="messageDetailContent" style="color:var(--text-secondary);text-align:center">Загрузка...</p>`,
         onSubmit: () => closeModal(),
     });
 }
 
 function confirmDeleteMessage(messageId) {
     showConfirmModal({
-        title: 'Delete Message',
-        message: 'Are you sure you want to delete this message? This action cannot be undone.',
-        confirmText: 'Delete',
+        title: 'Удаление сообщения',
+        message: 'Вы уверены, что хотите удалить это сообщение? Это действие нельзя отменить.',
+        confirmText: 'Удалить',
         type: 'danger',
         onConfirm: async () => {
             try {
                 await deleteAdminMessage(messageId);
-                showToast('Message deleted successfully', 'success');
+                showToast('Сообщение удалено', 'success');
                 loadMessages();
             } catch (err) {
                 showToast(err.message, 'error');

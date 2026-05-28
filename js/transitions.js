@@ -10,7 +10,7 @@
 
     if (!token || !user) return;
 
-    displayName = user.username || user.email || 'User';
+    displayName = user.username || user.email || 'Пользователь';
     initial = displayName[0].toUpperCase();
     email = user.email || '';
 

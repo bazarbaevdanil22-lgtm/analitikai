@@ -182,8 +182,8 @@ function updateAuthUI() {
         if (authLink) authLink.style.display = 'none';
         if (profileTrigger) {
             profileTrigger.style.display = 'flex';
-            if (user) {
-                const displayName = user.username || user.email || 'User';
+                if (user) {
+                    const displayName = user.username || user.email || 'Пользователь';
                 const initial = displayName[0].toUpperCase();
 
                 const avatar = profileTrigger.querySelector('.user-avatar');
@@ -218,7 +218,7 @@ function updateAuthUI() {
                     const link = document.createElement('a');
                     link.href = '/admin/dashboard.html';
                     link.className = 'dropdown-item admin-panel-link';
-                    link.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Admin Panel';
+                    link.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Панель управления';
                     divider.parentNode.insertBefore(link, divider.nextSibling);
                 }
             }

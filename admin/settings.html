@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="ru" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings | Admin Panel</title>
+    <title>Настройки | Панель управления</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/admin/css/admin.css">
     <script>document.documentElement.classList.toggle('vt-auth', !!localStorage.getItem('token'));</script>
@@ -30,8 +30,8 @@
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
-                        <a href="/profile.html" class="dropdown-item">Profile</a>
-                        <button class="dropdown-item dropdown-logout" onclick="handleLogout()">Sign Out</button>
+                        <a href="/profile.html" class="dropdown-item">Профиль</a>
+                        <button class="dropdown-item dropdown-logout" onclick="handleLogout()">Выйти</button>
                     </div>
                 </div>
             </nav>
@@ -41,28 +41,28 @@
     <div class="admin-layout">
         <div class="admin-sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
         <aside class="admin-sidebar" id="adminSidebar">
-            <div class="admin-sidebar-brand"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>Admin Panel</div>
+            <div class="admin-sidebar-brand"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>Панель управления</div>
             <nav class="admin-sidebar-nav">
-                <a href="/admin/dashboard.html" class="admin-nav-item">Dashboard</a>
-                <a href="/admin/users.html" class="admin-nav-item">Users</a>
-                <a href="/admin/roles.html" class="admin-nav-item">Roles & Permissions</a>
-                <a href="/admin/messages.html" class="admin-nav-item">Messages</a>
-                <a href="/admin/activity.html" class="admin-nav-item">Activity Logs</a>
-                <a href="/admin/settings.html" class="admin-nav-item active">Settings</a>
+                <a href="/admin/dashboard.html" class="admin-nav-item">Дашборд</a>
+                <a href="/admin/users.html" class="admin-nav-item">Пользователи</a>
+                <a href="/admin/roles.html" class="admin-nav-item">Роли и права</a>
+                <a href="/admin/messages.html" class="admin-nav-item">Сообщения</a>
+                <a href="/admin/activity.html" class="admin-nav-item">Журнал</a>
+                <a href="/admin/settings.html" class="admin-nav-item active">Настройки</a>
             </nav>
             <div class="admin-sidebar-footer">
-                <a href="/" class="admin-nav-item">Back to Site</a>
+                <a href="/" class="admin-nav-item">На сайт</a>
             </div>
         </aside>
 
         <main class="admin-main">
             <div class="admin-header">
                 <div>
-                    <h1>Settings</h1>
-                    <p>Configure application settings</p>
+                    <h1>Настройки</h1>
+                    <p>Конфигурация приложения</p>
                 </div>
                 <div class="admin-header-actions">
-                    <button class="btn btn-accent" onclick="loadSettings()">&#8635; Refresh</button>
+                    <button class="btn btn-accent" onclick="loadSettings()">&#8635; Обновить</button>
                 </div>
             </div>
 
