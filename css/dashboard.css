@@ -242,6 +242,49 @@ td .sentiment-badge {
     color: var(--primary);
 }
 
+.priority-badge {
+    display: inline-flex;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.priority-badge.priority-critical {
+    background: rgba(220,38,38,0.12);
+    color: #DC2626;
+}
+
+.priority-badge.priority-high {
+    background: rgba(234,88,12,0.12);
+    color: #EA580C;
+}
+
+.priority-badge.priority-medium {
+    background: rgba(234,179,8,0.12);
+    color: #A16207;
+}
+
+.priority-badge.priority-low {
+    background: rgba(34,197,94,0.1);
+    color: #16A34A;
+}
+
+td .sentiment-badge.positive {
+    background: rgba(34,197,94,0.1);
+    color: #16A34A;
+}
+
+td .sentiment-badge.negative {
+    background: rgba(239,68,68,0.1);
+    color: #DC2626;
+}
+
+td .sentiment-badge.neutral {
+    background: rgba(100,116,139,0.1);
+    color: #475569;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .stats-grid {

@@ -64,7 +64,7 @@
             <section class="hero">
                 <div class="hero-content">
                     <h1>Система анализа обращений пользователей</h1>
-                    <p>Искусственный интеллект анализирует сообщения, определяет эмоции и выявляет жалобы в реальном времени</p>
+                    <p>Искусственный интеллект анализирует сообщения, определяет эмоции, категорию, приоритет и создаёт краткое резюме</p>
                     <div class="hero-buttons">
                         <a href="#analyze" class="btn btn-primary">Отправить обращение</a>
                         <a href="/dashboard.html" class="btn btn-secondary">Смотреть аналитику</a>
@@ -75,31 +75,31 @@
             <!-- Features -->
             <div class="section-title">
                 <h2>Возможности системы</h2>
-                <p>AI-анализ обращений пользователей с определением эмоций, тональности и категорий проблем</p>
+                <p>AI-анализ обращений пользователей с определением эмоций, категории, приоритета и ключевых слов</p>
             </div>
 
             <div class="feature-grid">
                 <div class="feature-card">
                     <div class="feature-icon blue">😊</div>
                     <h3>Анализ эмоций</h3>
-                    <p>Определение 7 базовых эмоций: радость, гнев, грусть, страх, удивление, отвращение и нейтральное состояние</p>
+                    <p>Определение тональности: позитив, негатив или нейтрально с высокой точностью</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon purple">🔍</div>
-                    <h3>Выявление жалоб</h3>
-                    <p>Автоматическое определение категории жалобы: доставка, поддержка, оплата, качество или другое</p>
+                    <h3>Категоризация</h3>
+                    <p>Классификация обращений: жалоба, предложение, вопрос, похвала или баг-репорт</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon indigo">📊</div>
-                    <h3>Аналитика</h3>
-                    <p>Наглядные графики и статистика обращений, распределение эмоций и динамика по дням</p>
+                    <div class="feature-icon indigo">⚡</div>
+                    <h3>Приоритет + резюме</h3>
+                    <p>Определение приоритета (низкий/средний/высокий/критический), ключевые слова и AI-резюме</p>
                 </div>
             </div>
 
             <!-- Analyze Form -->
             <section class="form-section" id="analyze">
                 <h2>Отправить обращение</h2>
-                <p>Введите текст обращения и AI проанализирует его</p>
+                <p>Введите текст обращения и AI определит эмоцию, категорию, приоритет, ключевые слова и создаст резюме</p>
 
                 <div class="form-group">
                     <label for="messageText">Текст обращения</label>
@@ -121,17 +121,21 @@
                             <div class="value" id="resultEmotion">—</div>
                         </div>
                         <div class="result-item">
-                            <div class="label">Тональность</div>
-                            <div class="value" id="resultSentiment">—</div>
-                        </div>
-                        <div class="result-item">
-                            <div class="label">Вероятность</div>
-                            <div class="value" id="resultScore">—</div>
-                        </div>
-                        <div class="result-item">
                             <div class="label">Категория</div>
                             <div class="value" id="resultCategory">—</div>
                         </div>
+                        <div class="result-item">
+                            <div class="label">Приоритет</div>
+                            <div class="value" id="resultPriority">—</div>
+                        </div>
+                    </div>
+                    <div class="result-keywords" id="resultKeywords" style="display:none">
+                        <div class="label">Ключевые слова</div>
+                        <div class="keywords-list" id="keywordsList"></div>
+                    </div>
+                    <div class="result-summary" id="resultSummary" style="display:none">
+                        <div class="label">AI-резюме</div>
+                        <div class="summary-text" id="summaryText"></div>
                     </div>
                 </div>
             </section>

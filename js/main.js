@@ -1,35 +1,35 @@
-const EMOTION_EMOJIS = {
-    'joy': '😊',
-    'anger': '😠',
-    'sadness': '😢',
-    'fear': '😨',
-    'surprise': '😲',
-    'disgust': '🤢',
+const EMOTION_ICONS = {
+    'positive': '😊',
+    'negative': '😠',
     'neutral': '😐',
 };
 
 const EMOTION_LABELS_RU = {
-    'joy': 'Радость',
-    'anger': 'Гнев',
-    'sadness': 'Грусть',
-    'fear': 'Страх',
-    'surprise': 'Удивление',
-    'disgust': 'Отвращение',
+    'positive': 'Позитив',
+    'negative': 'Негатив',
     'neutral': 'Нейтрально',
 };
 
-const SENTIMENT_LABELS_RU = {
-    'positive': 'Позитивная',
-    'negative': 'Негативная',
-    'neutral': 'Нейтральная',
+const CATEGORY_LABELS_RU = {
+    'complaint': 'Жалоба',
+    'suggestion': 'Предложение',
+    'question': 'Вопрос',
+    'praise': 'Похвала',
+    'bugreport': 'Баг-репорт',
 };
 
-const CATEGORY_LABELS_RU = {
-    'delivery': 'Доставка',
-    'support': 'Поддержка',
-    'payment': 'Оплата',
-    'quality': 'Качество',
-    'other': 'Другое',
+const PRIORITY_LABELS_RU = {
+    'low': 'Низкий',
+    'medium': 'Средний',
+    'high': 'Высокий',
+    'critical': 'Критический',
+};
+
+const PRIORITY_CLASSES = {
+    'low': 'priority-low',
+    'medium': 'priority-medium',
+    'high': 'priority-high',
+    'critical': 'priority-critical',
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -63,28 +63,43 @@ async function handleAnalyze() {
         const result = await analyzeText(text);
 
         const resultEl = document.getElementById('analysisResult');
+
+        const emotionIcon = EMOTION_ICONS[result.emotion] || '😐';
+        const emotionLabel = EMOTION_LABELS_RU[result.emotion] || result.emotion;
         document.getElementById('resultEmotion').innerHTML = `
-            ${EMOTION_EMOJIS[result.emotion] || '😐'} ${EMOTION_LABELS_RU[result.emotion] || result.emotion}
-            <span class="score">${(result.emotion_score * 100).toFixed(1)}%</span>
+            <span class="emotion-badge ${result.emotion}">${emotionIcon} ${emotionLabel}</span>
+            <span class="score">${(result.emotion_score * 100).toFixed(1)}% уверенность</span>
         `;
 
-        const sentimentClass = result.sentiment;
-        const sentimentLabel = SENTIMENT_LABELS_RU[result.sentiment] || result.sentiment;
-        document.getElementById('resultSentiment').innerHTML = `
-            <span class="sentiment-badge ${sentimentClass}">${sentimentLabel}</span>
-            <span class="score">${(result.sentiment_score * 100).toFixed(1)}% уверенность</span>
-        `;
-
-        document.getElementById('resultScore').innerHTML = `
-            ${(result.emotion_score * 100).toFixed(1)}%
-            <span class="score">вероятность эмоции</span>
-        `;
-
-        const categoryLabel = CATEGORY_LABELS_RU[result.complaint_category] || result.complaint_category;
+        const categoryLabel = CATEGORY_LABELS_RU[result.category] || result.category;
         document.getElementById('resultCategory').innerHTML = `
-            ${categoryLabel}
-            <span class="score">категория жалобы</span>
+            <span class="category-badge">${categoryLabel}</span>
         `;
+
+        const priorityLabel = PRIORITY_LABELS_RU[result.priority] || result.priority;
+        document.getElementById('resultPriority').innerHTML = `
+            <span class="priority-badge ${PRIORITY_CLASSES[result.priority] || ''}">${priorityLabel}</span>
+        `;
+
+        const kwContainer = document.getElementById('resultKeywords');
+        const kwList = document.getElementById('keywordsList');
+        if (result.keywords && result.keywords.length > 0) {
+            kwList.innerHTML = result.keywords.map(kw =>
+                `<span class="keyword-tag">${kw}</span>`
+            ).join('');
+            kwContainer.style.display = 'block';
+        } else {
+            kwContainer.style.display = 'none';
+        }
+
+        const summaryContainer = document.getElementById('resultSummary');
+        const summaryText = document.getElementById('summaryText');
+        if (result.summary) {
+            summaryText.textContent = result.summary;
+            summaryContainer.style.display = 'block';
+        } else {
+            summaryContainer.style.display = 'none';
+        }
 
         resultEl.classList.add('visible');
         resultEl.scrollIntoView({ behavior: 'smooth', block: 'start' });

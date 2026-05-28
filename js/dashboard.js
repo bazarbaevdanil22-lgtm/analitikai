@@ -1,19 +1,15 @@
 const EMOTION_LABELS_RU = {
-    'joy': 'Радость', 'anger': 'Гнев', 'sadness': 'Грусть',
-    'fear': 'Страх', 'surprise': 'Удивление', 'disgust': 'Отвращение',
-    'neutral': 'Нейтрально',
+    'positive': 'Позитив', 'negative': 'Негатив', 'neutral': 'Нейтрально',
 };
 const EMOTION_COLORS = {
-    'joy': '#22C55E', 'anger': '#EF4444', 'sadness': '#3B82F6',
-    'fear': '#A855F7', 'surprise': '#F59E0B', 'disgust': '#84CC16',
-    'neutral': '#94A3B8',
+    'positive': '#22C55E', 'negative': '#EF4444', 'neutral': '#94A3B8',
 };
 const CATEGORY_LABELS_RU = {
-    'delivery': 'Доставка', 'support': 'Поддержка',
-    'payment': 'Оплата', 'quality': 'Качество', 'other': 'Другое',
+    'complaint': 'Жалоба', 'suggestion': 'Предложение',
+    'question': 'Вопрос', 'praise': 'Похвала', 'bugreport': 'Баг-репорт',
 };
 const CATEGORY_COLORS = [
-    '#6366F1', '#8B5CF6', '#EC4899', '#F59E0B', '#94A3B8'
+    '#EF4444', '#8B5CF6', '#3B82F6', '#22C55E', '#F59E0B'
 ];
 
 let charts = {};
@@ -209,19 +205,28 @@ async function loadMessages(sentiment) {
         tbody.parentElement.style.display = '';
         emptyState.style.display = 'none';
 
+        const PRIORITY_LABELS = {
+            'low': 'Низкий', 'medium': 'Средний', 'high': 'Высокий', 'critical': 'Критический',
+        };
+        const PRIORITY_CLASSES = {
+            'low': 'priority-low', 'medium': 'priority-medium', 'high': 'priority-high', 'critical': 'priority-critical',
+        };
+
         messages.forEach(msg => {
             const tr = document.createElement('tr');
             const emotionLabel = EMOTION_LABELS_RU[msg.emotion] || msg.emotion;
-            const categoryLabel = CATEGORY_LABELS_RU[msg.complaint_category] || msg.complaint_category;
+            const categoryLabel = CATEGORY_LABELS_RU[msg.category || msg.complaint_category] || (msg.category || msg.complaint_category);
+            const priorityLabel = PRIORITY_LABELS[msg.priority] || msg.priority || '—';
+            const priorityClass = PRIORITY_CLASSES[msg.priority] || '';
             const date = new Date(msg.created_at).toLocaleDateString('ru-RU', {
                 day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
             });
 
             tr.innerHTML = `
                 <td><span class="message-text" title="${escapeHtml(msg.text)}">${escapeHtml(msg.text)}</span></td>
-                <td>${emotionLabel}</td>
+                <td><span class="sentiment-badge ${msg.emotion}">${emotionLabel}</span></td>
                 <td><span class="category-badge">${categoryLabel}</span></td>
-                <td><span class="sentiment-badge ${msg.sentiment}">${msg.sentiment === 'positive' ? 'Позитив' : msg.sentiment === 'negative' ? 'Негатив' : 'Нейтрально'}</span></td>
+                <td><span class="priority-badge ${priorityClass}">${priorityLabel}</span></td>
                 <td style="white-space:nowrap;color:var(--text-secondary);font-size:13px">${date}</td>
             `;
             tbody.appendChild(tr);
