@@ -1,35 +1,14 @@
-const EMOTION_ICONS = {
-    'positive': '😊',
-    'negative': '😠',
-    'neutral': '😐',
-};
-
-const EMOTION_LABELS_RU = {
-    'positive': 'Позитив',
-    'negative': 'Негатив',
-    'neutral': 'Нейтрально',
-};
-
-const CATEGORY_LABELS_RU = {
-    'complaint': 'Жалоба',
-    'suggestion': 'Предложение',
-    'question': 'Вопрос',
-    'praise': 'Похвала',
-    'bugreport': 'Баг-репорт',
-};
-
-const PRIORITY_LABELS_RU = {
-    'low': 'Низкий',
-    'medium': 'Средний',
-    'high': 'Высокий',
-    'critical': 'Критический',
+const EMOTION_CONFIG = {
+    'позитив': { icon: '😊', class: 'positive' },
+    'негатив': { icon: '😠', class: 'negative' },
+    'нейтрально': { icon: '😐', class: 'neutral' },
 };
 
 const PRIORITY_CLASSES = {
-    'low': 'priority-low',
-    'medium': 'priority-medium',
-    'high': 'priority-high',
-    'critical': 'priority-critical',
+    'низкий': 'priority-low',
+    'средний': 'priority-medium',
+    'высокий': 'priority-high',
+    'критический': 'priority-critical',
 };
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -60,25 +39,23 @@ async function handleAnalyze() {
     spinner.style.display = 'inline-block';
 
     try {
-        const result = await analyzeText(text);
+        const response = await analyzeText(text);
+        const result = response.data;
 
         const resultEl = document.getElementById('analysisResult');
 
-        const emotionIcon = EMOTION_ICONS[result.emotion] || '😐';
-        const emotionLabel = EMOTION_LABELS_RU[result.emotion] || result.emotion;
+        const emotionCfg = EMOTION_CONFIG[result.emotion] || { icon: '😐', class: 'neutral' };
         document.getElementById('resultEmotion').innerHTML = `
-            <span class="emotion-badge ${result.emotion}">${emotionIcon} ${emotionLabel}</span>
-            <span class="score">${(result.emotion_score * 100).toFixed(1)}% уверенность</span>
+            <span class="emotion-badge ${emotionCfg.class}">${emotionCfg.icon} ${result.emotion}</span>
         `;
 
-        const categoryLabel = CATEGORY_LABELS_RU[result.category] || result.category;
         document.getElementById('resultCategory').innerHTML = `
-            <span class="category-badge">${categoryLabel}</span>
+            <span class="category-badge">${result.category}</span>
         `;
 
-        const priorityLabel = PRIORITY_LABELS_RU[result.priority] || result.priority;
+        const priorityClass = PRIORITY_CLASSES[result.priority] || '';
         document.getElementById('resultPriority').innerHTML = `
-            <span class="priority-badge ${PRIORITY_CLASSES[result.priority] || ''}">${priorityLabel}</span>
+            <span class="priority-badge ${priorityClass}">${result.priority}</span>
         `;
 
         const kwContainer = document.getElementById('resultKeywords');
